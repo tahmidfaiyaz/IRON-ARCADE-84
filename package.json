@@ -1,0 +1,12 @@
+{
+  "name": "iron-arcade-84",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An original neon bodybuilding rhythm arcade. No runtime dependencies.",
+  "scripts": {
+    "start": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "test": "node --test tests/engine.test.cjs",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": { "@playwright/test": "1.64.1" }
+}

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0915">
+  <meta name="description" content="30 seconds. All iron. A neon-soaked bodybuilding rhythm arcade. Lift, build your combo, become an Iron Legend.">
+  <title>IRON ARCADE '84 — No pain. All game.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23100b1b'/%3E%3Cpath d='M8 20h8v24H8zm10-6h8v36h-8zm8 14h12v8H26zm12-14h8v36h-8zm10 6h8v24h-8z' fill='%23ff4da6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="engine.js" defer></script>
+  <script src="scene.js" defer></script>
+  <script src="audio.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <div class="page-glow" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Iron Arcade home"><svg viewBox="0 0 44 28" aria-hidden="true"><path d="M2 8h5v12H2zm7-6h7v24H9zm7 9h12v6H16zm12-9h7v24h-7zm9 6h5v12h-5z"/></svg><span>IRON ARCADE<span class="brand-year">EST. 1984</span></span></a>
+    <div class="header-actions"><span class="live-dot"><i></i> ARCADE ONLINE</span><button class="small-button" id="sound-button" aria-pressed="false" aria-label="Enable music and sound"><span id="sound-icon" aria-hidden="true">♪</span> SOUND <span id="sound-state">OFF</span></button><button class="small-button help-button" id="help-button" aria-label="How to play">?</button></div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="game-title">
+      <p class="eyebrow"><span></span> THE GOLDEN AGE OF GAINS <span></span></p>
+      <h1 id="game-title">IRON ARCADE <span class="year">’84</span></h1>
+      <p class="tagline">NO PAIN. <span>ALL GAME.</span></p>
+      <p class="hero-description">Thirty seconds. One barbell. <span>How legendary can you get?</span></p>
+    </section>
+
+    <div class="game-layout">
+      <section class="cabinet" aria-label="Workout arcade">
+        <div class="cabinet-marquee"><span><i></i> 01 / WORKOUT CHALLENGE</span><span class="marquee-right">FREE PLAY <span aria-hidden="true">✦</span></span></div>
+        <div class="scoreboard">
+          <div class="stat score-stat"><span class="stat-label">SCORE</span><strong id="score">000000</strong></div>
+          <div class="stat timer-stat"><span class="stat-label">TIME LEFT</span><strong><span id="timer">30</span><small>SEC</small></strong></div>
+          <div class="stat rep-stat"><span class="stat-label">REPS</span><strong id="reps">00</strong></div>
+          <div class="stat combo-stat"><span class="stat-label">COMBO</span><strong id="combo">1<span>×</span></strong></div>
+        </div>
+
+        <div class="arena" id="arena">
+          <canvas id="gym-canvas" width="800" height="440" aria-label="Pixel art bodybuilder lifting a barbell in a neon gym"></canvas>
+          <div class="arena-corners" aria-hidden="true"></div>
+          <div class="arena-topline"><span>VENICE BEACH, CA</span><span id="arena-status">READY PLAYER ONE</span></div>
+          <div class="feedback" id="feedback" aria-hidden="true"></div>
+          <div class="particle-layer" id="particles" aria-hidden="true"></div>
+          <div class="start-overlay" id="start-overlay">
+            <div class="start-prompt"><span class="prompt-kicker">THE IRON IS WAITING.</span><button class="primary-button" id="start-button"><span class="play-icon" aria-hidden="true"></span> START WORKOUT</button><span class="start-hint">PRESS <kbd>ENTER</kbd> TO START</span></div>
+          </div>
+          <div class="pause-overlay" id="pause-overlay" hidden>
+            <p class="eyebrow">TAKE A BREATHER</p><h2>PAUSED</h2><p>Your gains can wait.</p><button class="primary-button" id="resume-button"><span class="play-icon" aria-hidden="true"></span> RESUME WORKOUT</button><span class="start-hint"><kbd>P</kbd> OR <kbd>ESC</kbd> TO RESUME</span>
+          </div>
+          <div class="results-overlay" id="results-overlay" hidden>
+            <span class="result-kicker" id="result-kicker">WORKOUT COMPLETE</span><h2 id="result-title">SOLID WORK.</h2><span class="result-score-label">FINAL SCORE</span><strong class="result-score" id="result-score">000000</strong>
+            <div class="result-stats"><span><b id="result-reps">0</b> REPS</span><span><b id="result-combo">1×</b> BEST COMBO</span><span><b id="result-xp">+0</b> XP</span></div>
+            <p class="result-rank" id="result-rank">GYM ROOKIE</p><button class="primary-button" id="replay-button">PLAY AGAIN</button>
+          </div>
+          <div class="arena-bottomline"><span><i></i> IRON NEVER LIES.</span><span>STEREO / 1984</span></div>
+        </div>
+
+        <div class="control-deck">
+          <div class="rhythm-panel"><div class="rhythm-label"><span>FIND YOUR RHYTHM</span><span id="rhythm-status">LIFT. RESET. REPEAT.</span></div><div class="rhythm-track" id="rhythm-track"><div class="rhythm-fill" id="rhythm-fill"></div><div class="perfect-zone"><span>PERFECT</span></div><div class="rhythm-needle" id="rhythm-needle"></div></div><p>Hit the <span>cyan zone</span> to build your combo.</p></div>
+          <button class="lift-button" id="lift-button" disabled><svg viewBox="0 0 44 28" aria-hidden="true"><path d="M2 8h5v12H2zm7-6h7v24H9zm7 9h12v6H16zm12-9h7v24h-7zm9 6h5v12h-5z"/></svg><span>LIFT!<small>SPACE / TAP</small></span></button>
+        </div>
+        <div class="cabinet-bottom"><span><span class="keyboard-hint"><kbd>SPACE</kbd> LIFT</span><span class="keyboard-hint"><kbd>P</kbd> PAUSE</span></span><div><button id="pause-button" disabled><span class="pause-icon" aria-hidden="true"></span> PAUSE</button><button id="restart-button" disabled><span aria-hidden="true">↻</span> RESTART</button></div></div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="player-card panel"><div class="panel-heading"><h2>PLAYER PROFILE</h2><span class="tiny-dot"></span></div><div class="player-identity"><div class="avatar" aria-hidden="true"><svg viewBox="0 0 48 48"><path fill="#b55b53" d="M19 9h12v13H19zM14 25h23v18H10V30h4z"/><path fill="#ffbd83" d="M18 10h13v10H18zM17 24h17v7H17zM10 27h7v12H7V29h3zM34 27h7v12h-7z"/><path fill="#493055" d="M16 8h17v7h-5v-4H16z"/><path fill="#ff4e9f" d="M17 26h4v7h8v-7h5v18H17z"/><path fill="#0d0a17" d="M26 15h3v2h-3z"/></svg></div><div><span class="mini-label">YOUR RANK</span><h3 id="player-rank">GYM ROOKIE</h3><span class="player-subtitle" id="player-subtitle">Every legend starts somewhere.</span></div></div><div class="xp-label"><span>CAREER XP</span><span><b id="total-xp">0</b> <span id="xp-target">/ 250</span></span></div><div class="xp-track" role="progressbar" aria-label="Progress to next rank" aria-valuemin="0" aria-valuemax="250" aria-valuenow="0" id="xp-progress"><span id="xp-fill"></span></div><p class="next-rank" id="next-rank">NEXT UP <span>IRON GRINDER</span></p></section>
+        <section class="best-card panel"><div class="record-icon" aria-hidden="true">♛</div><div><h2>PERSONAL BEST</h2><strong id="best-score">000000</strong><p id="best-description">A legend in the making.</p></div></section>
+        <section class="ranks-card panel"><div class="panel-heading"><h2>CLIMB THE RANKS</h2><svg class="rank-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M4 3h9v9"/></svg></div><ol class="rank-list" id="rank-list"><li data-rank="1" class="current"><span class="rank-number">I</span><span><b>GYM ROOKIE</b><small>0 XP</small></span><span class="rank-indicator">YOU</span></li><li data-rank="2"><span class="rank-number">II</span><span><b>IRON GRINDER</b><small>250 XP</small></span><span class="rank-indicator">◇</span></li><li data-rank="3"><span class="rank-number">III</span><span><b>MUSCLE MACHINE</b><small>1,000 XP</small></span><span class="rank-indicator">◇</span></li><li data-rank="4"><span class="rank-number">IV</span><span><b>IRON LEGEND</b><small>3,000 XP</small></span><span class="rank-indicator">◇</span></li></ol></section>
+        <div class="coach-note"><span class="note-star" aria-hidden="true">✦</span><p>“The last rep is where<br>the legend begins.”<small>— THE IRON CODE</small></p></div>
+      </aside>
+    </div>
+
+    <section class="instructions" aria-label="Quick instructions"><div><span class="step-number">01</span><p><strong>STEP UP</strong><span>Start your 30-second workout.</span></p></div><div><span class="step-number">02</span><p><strong>FIND THE FLOW</strong><span>Time your reps. Stack your combo.</span></p></div><div><span class="step-number">03</span><p><strong>BECOME LEGEND</strong><span>Earn XP. Make the high score yours.</span></p></div></section>
+  </main>
+  <footer><span>BUILT FOR THE PUMP. <b>POWERED BY PIXELS.</b></span><span id="save-status"><i></i> PROGRESS SAVES AUTOMATICALLY</span></footer>
+  <div class="sr-only" id="announcer" role="status" aria-live="polite"></div>
+  <dialog id="help-dialog" aria-labelledby="help-title"><button class="dialog-close" id="close-help" aria-label="Close instructions">×</button><p class="eyebrow">WELCOME TO THE IRON AGE</p><h2 id="help-title">HOW TO PLAY</h2><p>You have <strong>30 seconds</strong> to put in the work. Press <kbd>SPACE</kbd> or tap <strong>LIFT!</strong> for a rep.</p><p>Let the bar recover, then hit the <strong class="cyan-text">cyan zone</strong> — 0.7–1.05 seconds after your last rep — for a perfect lift. Chain perfect reps to build a <strong>5× combo</strong>.</p><ul><li>Good rep: <strong>100 points + 10 XP</strong>.</li><li>Perfect rep: <strong>150 points × combo + 20 XP</strong>.</li><li>The bar needs <strong>0.45 seconds</strong> to recover. Holding a key won’t repeat lifts.</li><li>Finish a round to bank your XP and best score. Restarting discards the current round.</li></ul><p><kbd>P</kbd> / <kbd>ESC</kbd> pauses. <kbd>R</kbd> restarts. Leaving the tab pauses your workout automatically.</p><button class="primary-button" id="got-it">LET’S LIFT</button></dialog>
+  <noscript><div class="noscript">Enable JavaScript to play IRON ARCADE ’84.</div></noscript>
+</body>
+</html>
